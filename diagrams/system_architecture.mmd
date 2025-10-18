@@ -1,0 +1,21 @@
+graph LR
+    A[FaceCode® Core] --> B[Guardian Node]
+    B --> C{Ethical Dashboard}
+    C --> D[Grafana]
+    C --> E[Notion]
+    B --> F[Open Test Case Protocol]
+    F --> G[Zenodo / ORCID]
+    A --> H[Compliance Layer]
+    H --> I[AI Act Mapping]
+    H --> J[EAA Mapping]
+    B --> K[Red Button: Ethical Veto]
+    K --> L[Human-in-the-loop]
+    
+    classDef guardian fill:#4CAF50,stroke:#388E3C,color:white;
+    classDef core fill:#2196F3,stroke:#0D47A1,color:white;
+    classDef ethics fill:#F44336,stroke:#B71C1C,color:white;
+    
+    class A core
+    class B,K guardian
+    class C,D,E,F,G,L ethics
+
