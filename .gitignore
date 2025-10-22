@@ -1,7 +1,15 @@
+# Dependencies
+node_modules/
+
 # Build artifacts
 /dist
 /build
 *.log
+
+# Environment
+.env
+.env.local
+.env.*.local
 
 # OS
 .DS_Store
@@ -11,4 +19,7 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# TypeScript
+*.tsbuildinfo
 
