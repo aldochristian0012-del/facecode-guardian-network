@@ -1,7 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
 # Build artifacts
 /dist
 /build
+*.egg-info/
+.eggs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+*.cover
+
+# Logs
 *.log
+logs/
+
+# Environment variables
+.env
+.env.local
 
 # OS
 .DS_Store
@@ -11,4 +40,20 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+*.swo
+.project
+.pydevproject
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+
+# Poetry
+poetry.lock
+
+# Docker
+*.dockerfile.swp
+
+# Jupyter
+.ipynb_checkpoints
 

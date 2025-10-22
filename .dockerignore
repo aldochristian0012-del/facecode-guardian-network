@@ -1,0 +1,52 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+htmlcov/
+.coverage
+*.cover
+
+# Logs
+logs/
+*.log
+
+# Tests
+tests/
+
+# Development
+.env
+.vscode
+.idea
+*.swp
+*.swo
+
+# Documentation
+docs/
+diagrams/
+README.md
+LICENSE.md
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Node
+node_modules/
+npm-debug.log
+
+# OS
+.DS_Store
+Thumbs.db

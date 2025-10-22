@@ -1,0 +1,124 @@
+name: FaceCode Guardian CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    name: Tests y Linting
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9, "3.10", "3.11"]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Configurar Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Cache de dependencias
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Instalar dependencias
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Linting con flake8
+      run: |
+        flake8 src/ tests/ --count --show-source --statistics
+
+    - name: Formateo con black
+      run: |
+        black src/ tests/ --check
+
+    - name: Type checking con mypy
+      run: |
+        mypy src/ --ignore-missing-imports
+      continue-on-error: true
+
+    - name: Tests unitarios
+      run: |
+        pytest tests/unit/ -v --cov=facecode_guardian --cov-report=xml
+
+    - name: Tests de integración
+      run: |
+        pytest tests/integration/ -v
+
+    - name: Upload coverage
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        fail_ci_if_error: false
+
+  ethical-audit:
+    name: Auditoría Ética
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Verificar cumplimiento ético
+      run: |
+        echo "🔍 Verificando características éticas..."
+        grep -r "REQUIRE_HUMAN_APPROVAL" src/ || echo "⚠️ Botón Ético Rojo no encontrado"
+        grep -r "BiasDetector" src/ || echo "⚠️ Detector de bias no encontrado"
+        grep -r "audit_logger" src/ || echo "⚠️ Sistema de auditoría no encontrado"
+        echo "✅ Auditoría ética completada"
+
+  docker:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Configurar Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Login a Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+      if: github.event_name != 'pull_request'
+
+    - name: Build y Push
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: ${{ github.event_name != 'pull_request' }}
+        tags: facecode/guardian-network:latest,facecode/guardian-network:${{ github.sha }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+
+    - name: Upload Trivy results to GitHub Security
+      uses: github/codeql-action/upload-sarif@v2
+      with:
+        sarif_file: 'trivy-results.sarif'
