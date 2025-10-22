@@ -22,6 +22,63 @@ Garantizar que toda implementación de FaceCode® incluya:
 - **Open Test Case Protocol**: Plantillas estandarizadas para pruebas públicas y auditables
 - **Compliance Layer**: Mapeo automático a requisitos del AI Act y EAA
 
+## 🚀 Inicio rápido
+
+### Requisitos previos
+
+- Node.js 18+
+- npm o pnpm
+- Una cuenta en [Supabase](https://supabase.com)
+
+### Instalación
+
+1. **Clona el repositorio:**
+   ```bash
+   git clone <tu-repositorio>
+   cd facecode-guardian-network
+   ```
+
+2. **Instala las dependencias:**
+   ```bash
+   npm install
+   ```
+
+3. **Configura las variables de entorno:**
+   ```bash
+   cp .env.example .env
+   ```
+
+   Edita el archivo `.env` con tus credenciales de Supabase:
+   - Ve a tu proyecto en [https://app.supabase.com](https://app.supabase.com)
+   - Navega a **Settings > API**
+   - Copia la **URL del proyecto** y la **clave anon/public**
+
+4. **Ejecuta en modo desarrollo:**
+   ```bash
+   npm run dev
+   ```
+
+5. **Compila el proyecto:**
+   ```bash
+   npm run build
+   npm start
+   ```
+
+### Estructura del proyecto
+
+```
+facecode-guardian-network/
+├── src/
+│   ├── lib/
+│   │   └── supabase.ts          # Cliente de Supabase configurado
+│   ├── types/
+│   │   └── database.types.ts    # Tipos de base de datos
+│   └── index.ts                 # Punto de entrada
+├── docs/                         # Documentación
+├── diagrams/                     # Diagramas de arquitectura
+└── .env.example                 # Plantilla de variables de entorno
+```
+
 ## 📂 Documentación
 
 - [Principios éticos](docs/ethical_principles.md)
