@@ -22,11 +22,54 @@ Garantizar que toda implementación de FaceCode® incluya:
 - **Open Test Case Protocol**: Plantillas estandarizadas para pruebas públicas y auditables
 - **Compliance Layer**: Mapeo automático a requisitos del AI Act y EAA
 
+## 🚀 Quick Start
+
+### Requisitos previos
+
+- Node.js >= 18.0.0
+- Cuenta en [Supabase](https://supabase.com)
+
+### Instalación
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/aldochristian0012-del/facecode-guardian-network.git
+cd facecode-guardian-network
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Configurar variables de entorno
+cp .env.example .env
+# Edita .env con tus credenciales de Supabase
+
+# 4. Iniciar en modo desarrollo
+npm run dev
+```
+
+### Configuración de Supabase
+
+1. Crea un proyecto en [Supabase](https://app.supabase.com)
+2. Obtén tus credenciales desde **Settings > API**
+3. Añádelas a tu archivo `.env`:
+
+```env
+SUPABASE_URL=https://tu-proyecto.supabase.co
+SUPABASE_ANON_KEY=tu_anon_key_aqui
+SUPABASE_SERVICE_KEY=tu_service_role_key_aqui
+```
+
+Ver guía completa: [📖 Configuración de Supabase](docs/SUPABASE_SETUP.md)
+
 ## 📂 Documentación
 
-- [Principios éticos](docs/ethical_principles.md)
-- [Guía para implementadores](docs/implementation_guide.md) *(próximamente)*
-- [Plantilla de Caso de Prueba Abierto](docs/open_test_case_template.md) *(próximamente)*
+### Guías de configuración
+- [🔧 Configuración de Supabase](docs/SUPABASE_SETUP.md)
+
+### Principios y especificaciones
+- [⚖️ Principios éticos](docs/ethical_principles.md)
+- [📘 Guía para implementadores](docs/implementation_guide.md) *(próximamente)*
+- [✅ Plantilla de Caso de Prueba Abierto](docs/open_test_case_template.md) *(próximamente)*
 
 ## 🖼 Diagrama de arquitectura
 

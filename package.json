@@ -1,0 +1,34 @@
+{
+  "name": "facecode-guardian-network",
+  "version": "0.1.0",
+  "description": "Protegiendo la dignidad digital mediante IA ética, transparencia radical y cumplimiento regulatorio",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server/index.ts",
+    "build": "tsc",
+    "start": "node dist/server/index.js",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "facecode",
+    "ethical-ai",
+    "facial-recognition",
+    "ai-governance",
+    "gdpr",
+    "eu-ai-act"
+  ],
+  "author": "Christian - FaceCode Founder",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
