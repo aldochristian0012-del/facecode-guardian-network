@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FaceCode® - Tu identidad facial como código</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0a0e1a;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(10, 14, 26, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 1000;
+  padding: 1rem 2rem;
+}
+
+.nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: #94a3b8;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #fff;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid #3b82f6;
+  color: #3b82f6;
+}
+
+.btn-secondary:hover {
+  background: #3b82f6;
+  color: white;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Sections */
+.section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 80px;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  color: #94a3b8;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  border-color: #3b82f6;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #10b981;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Camera Demo */
+.camera-demo {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.camera-view {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.camera-placeholder {
+  text-align: center;
+  color: #64748b;
+}
+
+.camera-placeholder svg {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.face-overlay {
+  position: absolute;
+  border: 3px solid #3b82f6;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  display: none;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+.camera-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.facecode-result {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid #3b82f6;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  display: none;
+}
+
+.facecode-hash {
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  word-break: break-all;
+  color: #3b82f6;
+  margin: 1rem 0;
+}
+
+/* Features */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.feature-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 2rem;
+  transition: all 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  border-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+  margin-bottom: 1rem;
+  color: #3b82f6;
+}
+
+.feature-card p {
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+/* Pricing */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.pricing-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.pricing-card.featured {
+  border-color: #3b82f6;
+  transform: scale(1.05);
+}
+
+.pricing-card.featured::before {
+  content: 'Popular';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #3b82f6;
+  padding: 0.25rem 1rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.price {
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 1rem 0;
+}
+
+.price-period {
+  font-size: 1rem;
+  color: #94a3b8;
+}
+
+.features-list {
+  list-style: none;
+  margin: 2rem 0;
+  text-align: left;
+}
+
+.features-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+}
+
+.features-list li::before {
+  content: '✓';
+  color: #10b981;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: #1e293b;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: #fff;
+}
+
+/* Loading */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Success message */
+.success-message {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid #10b981;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  display: none;
+}
+
+.success-message.show {
+  display: block;
+}
+
+/* Payment options */
+.payment-option:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(59, 130, 246, 0.5) !important;
+}
+
+.payment-option:active {
+  transform: scale(0.98);
+}
+
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #3b82f6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .pricing-card.featured {
+    transform: none;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <nav class="nav">
+    <div class="logo">FaceCode®</div>
+    <ul class="nav-links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#demo">Demo</a></li>
+      <li><a href="#features">Funciones</a></li>
+      <li><a href="#pricing">Precios</a></li>
+    </ul>
+    <button class="btn btn-primary" onclick="openModal('login')">Iniciar Sesión</button>
+  </nav>
+</header>
+
+<!-- Banner Beta -->
+<div style="background: linear-gradient(135deg, #3b82f6, #06b6d4); padding: 0.75rem; text-align: center; color: white; font-weight: 600; position: fixed; top: 70px; width: 100%; z-index: 999;">
+  🚀 Beta Abierta - Únete gratis | Contacto: christian@facecode.io
+</div>
+
+<!-- Hero Section -->
+<section id="inicio" class="section">
+  <div class="container">
+    <div class="hero">
+      <h1>Tu cara cuenta una historia diferente a tus palabras</h1>
+      <p>FaceCode Guardian detecta microexpresiones en tiempo real. Descubre la verdad que se oculta en cada rostro.</p>
+
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="scrollToDemo()">Probar Demo</button>
+        <button class="btn btn-secondary" onclick="scrollTo('pricing')">Ver Precios</button>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-value">73%</div>
+          <div class="stat-label">Mentiras detectadas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">&lt;0.5s</div>
+          <div class="stat-label">Microexpresiones</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">95%</div>
+          <div class="stat-label">Precisión</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">280ms</div>
+          <div class="stat-label">Tiempo análisis</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Demo Section -->
+<section id="demo" class="section">
+  <div class="container">
+    <h2 style="text-align:center; margin-bottom: 2rem;">Detecta Microexpresiones en Tiempo Real</h2>
+
+    <div class="camera-demo">
+      <div class="camera-view" id="cameraView">
+        <div class="camera-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+          <p>Activa la cámara para analizar expresiones faciales</p>
+        </div>
+        <div class="face-overlay" id="faceOverlay"></div>
+      </div>
+
+      <div class="camera-controls">
+        <button class="btn btn-primary" onclick="startCamera()" id="startBtn">
+          📸 Iniciar Análisis
+        </button>
+        <button class="btn btn-secondary" onclick="generateFaceCode()" id="generateBtn" style="display:none;">
+          🧠 Detectar Emociones
+        </button>
+      </div>
+
+      <div class="facecode-result" id="faceCodeResult">
+        <h4>✅ Análisis Completado</h4>
+        <div class="facecode-hash" id="faceCodeHash"></div>
+        <div style="margin-top: 1rem; font-size: 0.875rem;">
+          <strong>Emoción detectada:</strong> <span id="emotionDetected" style="color: #10b981;"></span><br>
+          <strong>Coherencia:</strong> <span id="coherenceScore" style="color: #3b82f6;"></span><br>
+          <strong>Microexpresiones:</strong> <span id="microCount" style="color: #f59e0b;"></span>
+        </div>
+        <p style="font-size: 0.875rem; color: #94a3b8; margin-top: 1rem;">
+          El análisis se realiza localmente. Ningún dato facial sale de tu dispositivo.
+        </p>
+      </div>
+
+      <div class="success-message" id="successMessage">
+        <strong>✅ Éxito!</strong> Tu FaceCode ha sido generado y guardado localmente.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="section">
+  <div class="container">
+    <h2 style="text-align:center; margin-bottom: 2rem;">Funciones Principales</h2>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎭</div>
+        <h3>Detecta Incoherencias</h3>
+        <p>Identifica cuando las palabras no coinciden con las expresiones faciales. Descubre la verdad oculta en conversaciones.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Análisis en Tiempo Real</h3>
+        <p>Procesamiento instantáneo de microexpresiones. Resultados en menos de 280ms con precisión del 95%.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>100% Privado</h3>
+        <p>Todo el análisis ocurre localmente en tu dispositivo. Cero imágenes guardadas, cero envío a servidores.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🧠</div>
+        <h3>5 Emociones Universales</h3>
+        <p>Detecta alegría, tristeza, ira, sorpresa y neutralidad basado en las Action Units de Paul Ekman.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Dashboard Completo</h3>
+        <p>Métricas de coherencia emocional, autenticidad, y análisis histórico de patrones de comportamiento.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🆘</div>
+        <h3>Guardian SOS</h3>
+        <p>Detecta señales de estrés extremo y activa protocolos de seguridad automáticos con contactos de emergencia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Section -->
+<section id="pricing" class="section">
+  <div class="container">
+    <h2 style="text-align:center; margin-bottom: 2rem;">Planes y Precios</h2>
+
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h3>Beta Tester</h3>
+        <div class="price">$0<span class="price-period">/mes</span></div>
+        <ul class="features-list">
+          <li>100 análisis mensuales</li>
+          <li>Dashboard básico</li>
+          <li>5 emociones detectadas</li>
+          <li>Acceso a comunidad beta</li>
+          <li>Feedback directo al equipo</li>
+        </ul>
+        <button class="btn btn-secondary" onclick="openModal('signup')">Unirse a Beta</button>
+      </div>
+
+      <div class="pricing-card featured">
+        <h3>Pro</h3>
+        <div class="price">$99<span class="price-period">MXN/mes</span></div>
+        <ul class="features-list">
+          <li>Análisis ilimitados</li>
+          <li>Dashboard avanzado</li>
+          <li>Exportar reportes PDF</li>
+          <li>Guardian SOS incluido</li>
+          <li>Historial completo</li>
+          <li>Soporte prioritario</li>
+          <li>Acceso anticipado a features</li>
+        </ul>
+        <button class="btn btn-primary" onclick="openModal('checkout')">Activar Pro</button>
+      </div>
+
+      <div class="pricing-card">
+        <h3>Team</h3>
+        <div class="price">$299<span class="price-period">MXN/mes</span></div>
+        <ul class="features-list">
+          <li>Todo lo de Pro</li>
+          <li>5 usuarios incluidos</li>
+          <li>API de integración</li>
+          <li>Dashboard colaborativo</li>
+          <li>Training personalizado</li>
+          <li>Onboarding dedicado</li>
+          <li>Guardian Fund contribution</li>
+        </ul>
+        <button class="btn btn-secondary" onclick="openModal('contact')">Contactar Ventas</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Login Modal -->
+<div class="modal" id="loginModal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('login')">&times;</button>
+    <h2 style="margin-bottom: 1.5rem;">Iniciar Sesión</h2>
+    <form onsubmit="handleLogin(event)">
+      <div style="margin-bottom: 1rem;">
+        <input type="email" placeholder="Email" required style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white;">
+      </div>
+      <button type="submit" class="btn btn-primary" style="width: 100%;">
+        Enviar Magic Link
+      </button>
+    </form>
+    <p style="text-align: center; margin-top: 1rem; font-size: 0.875rem; color: #94a3b8;">
+      Te enviaremos un enlace de acceso a tu email
+    </p>
+  </div>
+</div>
+
+<!-- Signup Modal -->
+<div class="modal" id="signupModal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('signup')">&times;</button>
+    <h2 style="margin-bottom: 1.5rem;">Crear Cuenta</h2>
+    <form onsubmit="handleSignup(event)">
+      <div style="margin-bottom: 1rem;">
+        <input type="email" placeholder="Email" required style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white;">
+      </div>
+      <button type="submit" class="btn btn-primary" style="width: 100%;">
+        Registrarse Gratis
+      </button>
+    </form>
+  </div>
+</div>
+
+<!-- Checkout Modal -->
+<div class="modal" id="checkoutModal">
+  <div class="modal-content" style="max-width: 600px;">
+    <button class="modal-close" onclick="closeModal('checkout')">&times;</button>
+    <h2 style="margin-bottom: 1rem;">Actualizar a Pro</h2>
+
+    <!-- Plan Selector -->
+    <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <div>
+          <h3 style="margin: 0;">Plan Pro</h3>
+          <p style="margin: 0.25rem 0; font-size: 0.875rem; color: #94a3b8;">Facturación mensual</p>
+        </div>
+        <div class="price" style="margin: 0;">$99<span style="font-size: 1rem; color: #94a3b8;">/mes</span></div>
+      </div>
+
+      <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+        <input type="checkbox" id="annualToggle" onchange="toggleAnnualPricing()">
+        <span style="font-size: 0.875rem;">Facturación anual (ahorra 17%)</span>
+        <span style="background: #10b981; padding: 0.125rem 0.5rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">-$200/año</span>
+      </label>
+    </div>
+
+    <h3 style="margin-bottom: 1rem; font-size: 1rem;">Método de Pago</h3>
+
+    <!-- Payment Options -->
+    <div style="display: grid; gap: 0.75rem; margin-bottom: 1.5rem;">
+      <!-- Stripe (Tarjeta) -->
+      <button class="payment-option" onclick="selectPaymentMethod('stripe')" style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; transition: all 0.3s; width: 100%;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="font-size: 1.5rem;">💳</div>
+          <div style="text-align: left;">
+            <div style="font-weight: 600; margin-bottom: 0.25rem;">Tarjeta de Crédito/Débito</div>
+            <div style="font-size: 0.75rem; color: #94a3b8;">Visa, Mastercard, American Express</div>
+          </div>
+        </div>
+        <div style="width: 20px; height: 20px; border: 2px solid #3b82f6; border-radius: 50%;"></div>
+      </button>
+
+      <!-- PayPal -->
+      <button class="payment-option" onclick="selectPaymentMethod('paypal')" style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; transition: all 0.3s; width: 100%;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="font-size: 1.5rem;">🅿️</div>
+          <div style="text-align: left;">
+            <div style="font-weight: 600; margin-bottom: 0.25rem;">PayPal</div>
+            <div style="font-size: 0.75rem; color: #94a3b8;">Pago rápido y seguro</div>
+          </div>
+        </div>
+        <div style="width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%;"></div>
+      </button>
+
+      <!-- OXXO -->
+      <button class="payment-option" onclick="selectPaymentMethod('oxxo')" style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; transition: all 0.3s; width: 100%;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="font-size: 1.5rem;">🏪</div>
+          <div style="text-align: left;">
+            <div style="font-weight: 600; margin-bottom: 0.25rem;">OXXO</div>
+            <div style="font-size: 0.75rem; color: #94a3b8;">Pago en efectivo (México)</div>
+          </div>
+        </div>
+        <div style="width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%;"></div>
+      </button>
+
+      <!-- Transferencia SPEI -->
+      <button class="payment-option" onclick="selectPaymentMethod('spei')" style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; transition: all 0.3s; width: 100%;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="font-size: 1.5rem;">🏦</div>
+          <div style="text-align: left;">
+            <div style="font-weight: 600; margin-bottom: 0.25rem;">Transferencia SPEI</div>
+            <div style="font-size: 0.75rem; color: #94a3b8;">Transferencia bancaria (México)</div>
+          </div>
+        </div>
+        <div style="width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%;"></div>
+      </button>
+
+      <!-- Mercado Pago -->
+      <button class="payment-option" onclick="selectPaymentMethod('mercadopago')" style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; transition: all 0.3s; width: 100%;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="font-size: 1.5rem;">💰</div>
+          <div style="text-align: left;">
+            <div style="font-weight: 600; margin-bottom: 0.25rem;">Mercado Pago</div>
+            <div style="font-size: 0.75rem; color: #94a3b8;">Tarjetas y saldo en Mercado Pago</div>
+          </div>
+        </div>
+        <div style="width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%;"></div>
+      </button>
+
+      <!-- Crypto -->
+      <button class="payment-option" onclick="selectPaymentMethod('crypto')" style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 8px; cursor: pointer; transition: all 0.3s; width: 100%;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div style="font-size: 1.5rem;">₿</div>
+          <div style="text-align: left;">
+            <div style="font-weight: 600; margin-bottom: 0.25rem;">Criptomonedas</div>
+            <div style="font-size: 0.75rem; color: #94a3b8;">Bitcoin, USDT, ETH</div>
+          </div>
+        </div>
+        <div style="width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%;"></div>
+      </button>
+    </div>
+
+    <button class="btn btn-primary" onclick="processCheckout()" id="checkoutButton" style="width: 100%; margin-bottom: 1rem;" disabled>
+      Selecciona un método de pago
+    </button>
+
+    <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; font-size: 0.75rem; color: #94a3b8;">
+      <span>🔒 Pago 100% seguro</span>
+      <span>•</span>
+      <span>❌ Cancela cuando quieras</span>
+    </div>
+  </div>
+</div>
+
+<!-- Contact Modal -->
+<div class="modal" id="contactModal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('contact')">&times;</button>
+    <h2 style="margin-bottom: 1.5rem;">Contacto Enterprise</h2>
+    <form onsubmit="handleContact(event)">
+      <div style="margin-bottom: 1rem;">
+        <input type="text" placeholder="Nombre" required style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white;">
+      </div>
+      <div style="margin-bottom: 1rem;">
+        <input type="email" placeholder="Email" required style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white;">
+      </div>
+      <div style="margin-bottom: 1rem;">
+        <input type="text" placeholder="Empresa" required style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: white;">
+      </div>
+      <button type="submit" class="btn btn-primary" style="width: 100%;">
+        Enviar Solicitud
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+// Smooth scroll
+function scrollTo(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' })
+}
+
+function scrollToDemo() {
+  document.getElementById('demo').scrollIntoView({ behavior: 'smooth' })
+}
+
+// Modal functions
+function openModal(type) {
+  const modals = {
+    'login': 'loginModal',
+    'signup': 'signupModal',
+    'checkout': 'checkoutModal',
+    'contact': 'contactModal'
+  }
+  document.getElementById(modals[type]).classList.add('active')
+}
+
+function closeModal(type) {
+  const modals = {
+    'login': 'loginModal',
+    'signup': 'signupModal',
+    'checkout': 'checkoutModal',
+    'contact': 'contactModal'
+  }
+  document.getElementById(modals[type]).classList.remove('active')
+}
+
+// Camera simulation
+let cameraActive = false
+
+function startCamera() {
+  const cameraView = document.getElementById('cameraView')
+  const startBtn = document.getElementById('startBtn')
+  const generateBtn = document.getElementById('generateBtn')
+  const faceOverlay = document.getElementById('faceOverlay')
+
+  if (!cameraActive) {
+    // Simulate camera start
+    cameraView.style.background = 'linear-gradient(135deg, #1e293b, #334155)'
+    cameraView.innerHTML = '<p style="color: white; font-size: 1.5rem;">📸 Cámara activa</p>'
+
+    // Show face detection after 1s
+    setTimeout(() => {
+      cameraView.appendChild(faceOverlay)
+      faceOverlay.style.display = 'block'
+
+      startBtn.textContent = '⏹️ Detener Cámara'
+      generateBtn.style.display = 'inline-block'
+    }, 1000)
+
+    cameraActive = true
+  } else {
+    // Stop camera
+    cameraView.style.background = '#000'
+    cameraView.innerHTML = `
+      <div class="camera-placeholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 80px; height: 80px; margin-bottom: 1rem; opacity: 0.5;">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+          <circle cx="12" cy="13" r="4"></circle>
+        </svg>
+        <p>Haz clic en "Iniciar Cámara" para comenzar</p>
+      </div>
+    `
+
+    startBtn.textContent = '📸 Iniciar Cámara'
+    generateBtn.style.display = 'none'
+    cameraActive = false
+  }
+}
+
+function generateFaceCode() {
+  const generateBtn = document.getElementById('generateBtn')
+  const faceCodeResult = document.getElementById('faceCodeResult')
+  const faceCodeHash = document.getElementById('faceCodeHash')
+  const successMessage = document.getElementById('successMessage')
+
+  // Disable button and show loading
+  generateBtn.disabled = true
+  generateBtn.innerHTML = '<span class="loading"></span> Analizando...'
+
+  // Simulate emotion detection
+  setTimeout(() => {
+    const emotions = ['Alegría', 'Tristeza', 'Ira', 'Sorpresa', 'Neutral']
+    const emotion = emotions[Math.floor(Math.random() * emotions.length)]
+    const coherence = (Math.random() * 30 + 70).toFixed(1) + '%'
+    const microCount = Math.floor(Math.random() * 15) + 3
+
+    // Generate analysis hash (simulation)
+    const hash = Array.from({length: 32}, () =>
+      Math.floor(Math.random() * 16).toString(16)
+    ).join('')
+
+    document.getElementById('emotionDetected').textContent = emotion
+    document.getElementById('coherenceScore').textContent = coherence
+    document.getElementById('microCount').textContent = microCount + ' detectadas'
+    faceCodeHash.textContent = 'ID de Sesión: ' + hash
+
+    faceCodeResult.style.display = 'block'
+    successMessage.classList.add('show')
+
+    generateBtn.disabled = false
+    generateBtn.textContent = '🔄 Nuevo Análisis'
+
+    // Track event (simulation)
+    console.log('Emotion analysis:', { emotion, coherence, microCount, hash })
+  }, 2500)
+}
+
+// Form handlers
+function handleLogin(e) {
+  e.preventDefault()
+  alert('✅ Magic Link enviado! Revisa tu email.')
+  closeModal('login')
+}
+
+function handleSignup(e) {
+  e.preventDefault()
+  alert('✅ Cuenta creada! Revisa tu email para confirmar.')
+  closeModal('signup')
+}
+
+// Payment method selection
+let selectedPaymentMethod = null
+let isAnnualBilling = false
+
+function selectPaymentMethod(method) {
+  selectedPaymentMethod = method
+
+  // Remove selected state from all options
+  const options = document.querySelectorAll('.payment-option')
+  options.forEach(opt => {
+    opt.style.borderColor = 'rgba(255,255,255,0.1)'
+    opt.style.background = 'rgba(255,255,255,0.05)'
+    const radio = opt.querySelector('div:last-child')
+    radio.style.background = 'transparent'
+  })
+
+  // Add selected state to clicked option
+  const selectedOption = event.target.closest('.payment-option')
+  selectedOption.style.borderColor = '#3b82f6'
+  selectedOption.style.background = 'rgba(59, 130, 246, 0.1)'
+  const radio = selectedOption.querySelector('div:last-child')
+  radio.style.background = '#3b82f6'
+
+  // Enable checkout button
+  const checkoutBtn = document.getElementById('checkoutButton')
+  checkoutBtn.disabled = false
+  checkoutBtn.textContent = `Pagar con ${getPaymentMethodName(method)}`
+}
+
+function getPaymentMethodName(method) {
+  const names = {
+    'stripe': 'Tarjeta',
+    'paypal': 'PayPal',
+    'oxxo': 'OXXO',
+    'spei': 'Transferencia',
+    'mercadopago': 'Mercado Pago',
+    'crypto': 'Crypto'
+  }
+  return names[method] || 'este método'
+}
+
+function toggleAnnualPricing() {
+  const toggle = document.getElementById('annualToggle')
+  isAnnualBilling = toggle.checked
+
+  const priceDisplay = document.querySelector('#checkoutModal .price')
+
+  if (isAnnualBilling) {
+    priceDisplay.innerHTML = '$82<span style="font-size: 1rem; color: #94a3b8;">/mes</span>'
+  } else {
+    priceDisplay.innerHTML = '$99<span style="font-size: 1rem; color: #94a3b8;">/mes</span>'
+  }
+}
+
+function processCheckout() {
+  if (!selectedPaymentMethod) {
+    alert('⚠️ Por favor selecciona un método de pago')
+    return
+  }
+
+  const amount = isAnnualBilling ? '984 MXN (anual)' : '99 MXN/mes'
+  const method = getPaymentMethodName(selectedPaymentMethod)
+
+  // En producción: integrar con Stripe usando tu cuenta
+  // Placeholder: pk_test_51XXXXXXXXXXXXXXXXXXXXXXXXXX
+
+  if (selectedPaymentMethod === 'stripe') {
+    alert(`🔄 Redirigiendo a Stripe Checkout...\n\nMonto: ${amount}\n\nEn producción esto usará tu cuenta:\nStripe Account ID: acct_PLACEHOLDER\nPublishable Key: pk_live_PLACEHOLDER`)
+
+    // Simulación de redirección a Stripe
+    setTimeout(() => {
+      // window.location.href = 'https://checkout.stripe.com/c/pay/cs_test_XXXXX'
+      closeModal('checkout')
+      alert('✅ ¡Pago exitoso! Tu cuenta Pro está activa.\n\nRecibirás un email de confirmación a: christian@facecode.io')
+    }, 2000)
+  } else {
+    alert(`🔄 Procesando pago de ${amount} vía ${method}...\n\nEn producción, esto redirigiría a:\n- Stripe Checkout (tarjeta): stripe.com/checkout\n- PayPal Checkout: paypal.com/checkout\n- OXXO: Código de barras generado\n- SPEI: CLABE interbancaria\n- Mercado Pago: checkout.mercadopago.com\n- Crypto: Coinbase Commerce`)
+
+    setTimeout(() => {
+      closeModal('checkout')
+      alert('✅ ¡Pago exitoso! Tu cuenta Pro está activa.\n\nAccede a tu dashboard para comenzar.')
+      selectedPaymentMethod = null
+      isAnnualBilling = false
+      document.getElementById('annualToggle').checked = false
+      toggleAnnualPricing()
+    }, 1500)
+  }
+}
+
+function handleContact(e) {
+  e.preventDefault()
+  alert('✅ Solicitud enviada! Te contactaremos pronto.')
+  closeModal('contact')
+}
+
+// Close modal on outside click
+window.onclick = function(event) {
+  if (event.target.classList.contains('modal')) {
+    event.target.classList.remove('active')
+  }
+}
+</script>
+
+</body>
+</html>
