@@ -27,6 +27,7 @@ Garantizar que toda implementación de FaceCode® incluya:
 - [Principios éticos](docs/ethical_principles.md)
 - [Guía para implementadores](docs/implementation_guide.md) *(próximamente)*
 - [Plantilla de Caso de Prueba Abierto](docs/open_test_case_template.md) *(próximamente)*
+- [CV del Fundador](cv/README.md) – Christian Patiño, Arquitecto del Guardian Network
 
 ## 🖼 Diagrama de arquitectura
 

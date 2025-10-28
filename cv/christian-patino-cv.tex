@@ -1,0 +1,112 @@
+%======================================================================
+% Awesome-CV LaTeX Template – Christian Patiño (2025)
+% Updated with FaceCode® Guardian Network integration
+%======================================================================
+\documentclass[11pt,a4paper,sans]{moderncv}
+
+% moderncv themes
+\moderncvstyle{banking} % banking = clean columns, no photo
+\moderncvcolor{blue}    % dark-blue accents
+
+% adjust page margins
+\usepackage[scale=0.80]{geometry}
+\setlength{\hintscolumnwidth}{3.2cm}
+
+% personal data
+\name{Christian}{Patiño}
+\title{Founder \& Chief Architect – FaceCode®}
+\address{Mexico City}{Remote (EU–LATAM)}
+\email{christian@facecode.bio}
+\homepage{linkedin.com/in/christianpatino}
+\homepage[GitHub]{github.com/cpatino}
+\extrainfo{\faPhone~+52 1 55 … (on request)} % optional
+
+%======================================================================
+\begin{document}
+
+\makecvtitle
+
+%----------------------------------------------------------------------
+\section{Professional Vision}
+\cvitem{}{Engineer, writer, and founder with 8+ years in software design, edge AI, and ethical governance of biometric systems. Created \textbf{FaceCode®}—a 100\% on-device authentication platform embedded within the \textbf{Guardian Network}, a scalable ethical governance infrastructure for facial recognition. Combines algorithmic precision, radical transparency, and human sovereignty to restore digital dignity and ensure compliance with AI Act, GDPR, and European Accessibility Act.}
+
+%----------------------------------------------------------------------
+\section{Experience}
+\cventry{2023--Present}{Founder \& Chief Architect}{FaceCode® Guardian Network}{Mexico}{}{
+\textit{Architect of the Guardian Network: an ethical governance infrastructure for facial recognition, embedding real-time human veto, continuous auditing, and regulatory compliance by design.}
+\begin{itemize}
+  \item \textbf{Guardian Network Deployment}: Designed and deployed a scalable ethical governance layer featuring Guardian Nodes (autonomous monitoring instances), an Ethical Dashboard (real-time metrics visualization), and the Red Ethical Button (human-in-the-loop veto mechanism)—ensuring AI Act, EAA, and GDPR alignment through continuous auditing and algorithmic accountability.
+  \item Full edge architecture (TensorFlow Lite, MobileNet, BLAKE3) for encrypted local inference embedded within sovereign ethical infrastructure.
+  \item P90 latency < 900 ms, FRR 1.8\% (ISO/IEC 30107 1:1) on mid-range devices.
+  \item Ephemeral cryptographic templates → 98\% biometric data reduction, operationalizing data minimization and digital sovereignty principles.
+  \item 70\% lower OPEX vs cloud systems (no biometric servers, full on-device processing).
+  \item Compliance Layer mapped to EU AI Act high-risk requirements and EAA accessibility standards, operationalized via Open Test Case Protocol.
+  \item "Red Button" consent-revocation protocol (GDPR Art. 21) + real-time human veto for ethical control.
+  \item Regulatory roadmap (EU, LATAM, US) + DPIAs; AI Act exemption pre-assessment.
+  \item \textit{blu} brand narrative: "controlled improvisation"—structure meets human agency.
+\end{itemize}}
+
+\cventry{2020--2023}{Tech Lead / Product Architect}{[SaaS B2B Company]}{Mexico}{}{
+\begin{itemize}
+  \item Authentication stack redesign for 200+ corporate clients.
+  \item CI/CD pipelines → MTTR < 45 min, 3 deploys/week.
+  \item Compliance: LFPDPPP (MX), LGPD (BR); data-minimization audits.
+\end{itemize}}
+
+%----------------------------------------------------------------------
+\section{Ethical Architecture Principles}
+\cvitem{Radical Transparency}{All decisions auditable via Ethical Dashboard—technical metrics + ethical indicators in real-time (Grafana/Notion compatible).}
+\cvitem{Human Sovereignty}{Real-time veto via Red Ethical Button—immediate human intervention to stop unethical operations.}
+\cvitem{Non-static Identity}{Biometrics as dynamic expression of personhood, not static token—aligned with "Derecho a la Dignidad Digital".}
+
+%----------------------------------------------------------------------
+\section{Quantifiable Achievements}
+\begin{cvcolumns}
+  \cvcolumn{98\%}{reduction in stored biometric data}
+  \cvcolumn{70\%}{lower infra costs (edge inference)}
+  \cvcolumn{1.8\%}{FRR under uncontrolled light}
+  \cvcolumn{900 ms}{median auth time (consumer HW)}
+\end{cvcolumns}
+
+%----------------------------------------------------------------------
+\section{Public Engagement}
+\cvitem{2024}{Panelist – \textit{Ethics of Biometric AI}, European Digital Rights Forum, Brussels}
+\cvitem{2024}{Speaker – Partner Spotlight, FaceCode AI}
+\cvitem{Q1 2025}{Upcoming episode – "From Saxophone to Code", \textit{Código 33}}
+\cvitem{}{Contributor – Working Group on AI \& Accessibility (ENTSO-E, in discussion)}
+
+%----------------------------------------------------------------------
+\section{External Validation}
+\cvitem{2024}{Independent privacy-by-design architecture audit}
+\cvitem{2024--}{AI Act compliance pre-assessment (Spain/Mexico)}
+\cvitem{2012}{Local press feature – discipline \& musical talent (saxophone)}
+
+%----------------------------------------------------------------------
+\section{Ecosystem Contributions}
+\cvitem{}{Open documentation on privacy in edge AI (FaceCode® GitHub)}
+\cvitem{}{Guardian Network Ethical License v1.0 – human-centric, non-discrimination, fundamental rights alignment}
+\cvitem{2023--2024}{Volunteer mentor – Ethical AI Entrepreneurship, Tec de Monterrey}
+\cvitem{}{Collaboration on accessible biometric standards with digital-rights groups}
+
+%----------------------------------------------------------------------
+\section{Education}
+\cventry{2016}{B.S. Computer Engineering}{Tecnológico de Monterrey (ITESM)}{}{}{}
+
+%----------------------------------------------------------------------
+\section{Skills}
+\cvitem{Technical}{TensorFlow Lite, MobileNet, OpenCV, Zero-Knowledge Proofs, On-Device ML, Android NDK, Docker, GitHub Actions, Ethical Dashboard Architecture, Guardian Nodes Design}
+\cvitem{Regulatory}{GDPR, AI Act, EAA, DPIA Design, Ethical AI Governance, Transparency by Design, Algorithmic Accountability, Human-in-the-Loop Systems}
+\cvitem{Strategic}{Product Architecture, Technical Storytelling, Investor Pitching, Cross-disciplinary Leadership, Digital Sovereignty Advocacy}
+
+%----------------------------------------------------------------------
+\section{Languages}
+\cvitem{Spanish}{Native}
+\cvitem{English}{Advanced – technical \& executive fluency}
+
+%----------------------------------------------------------------------
+\section{Personal Note}
+\cvitem{}{``Innovating with the discipline of the saxophone and the precision of the algorithm—where ethics is not an add-on but the architecture itself. Guardian of digital dignity, architect of human sovereignty.''}
+
+%----------------------------------------------------------------------
+\clearpage
+\end{document}
