@@ -1,0 +1,149 @@
+%% FaceCode® Guardian Network - Technical Architecture Map
+%% Professional System Design - Enterprise Grade
+
+graph TB
+    subgraph "EXTERNAL INTERFACES"
+        USER[👤 End Users]
+        AUDITOR[🔍 External Auditors]
+        REGULATOR[⚖️ Regulatory Bodies]
+        INTEGRATOR[🔧 System Integrators]
+    end
+
+    subgraph "PRESENTATION LAYER"
+        DASHBOARD[📊 Ethical Dashboard<br/>Real-time Metrics & Alerts]
+        API[🔌 REST/GraphQL API<br/>v2.0 - OpenAPI Spec]
+        CLI[💻 CLI Tools<br/>Guardian Management]
+        SDK[📦 SDK Libraries<br/>Python, TypeScript, Java]
+    end
+
+    subgraph "APPLICATION LAYER"
+        subgraph "FaceCode® Core Engine"
+            FACECORE[🎯 Recognition Engine<br/>Privacy-Preserving ML]
+            CONSENT[📝 Consent Manager<br/>GDPR/CCPA Compliant]
+            CRYPTO[🔐 Cryptographic Layer<br/>Zero-Knowledge Proofs]
+        end
+
+        subgraph "Guardian Network Services"
+            GUARDIAN[🛡️ Guardian Nodes<br/>Distributed Monitoring]
+            REDBUTTON[🔴 Ethical Veto System<br/>Human Override - 50ms Response]
+            BIAS[⚖️ Bias Detection Engine<br/>Real-time Fairness Metrics]
+            AUDIT[📋 Audit Trail System<br/>Immutable Logging]
+        end
+    end
+
+    subgraph "INTELLIGENCE LAYER"
+        ML[🤖 ML Pipeline<br/>Bias-Aware Training]
+        ANALYTICS[📈 Analytics Engine<br/>Performance & Ethics Metrics]
+        ALERT[🚨 Anomaly Detection<br/>Pattern Recognition]
+        REPORT[📄 Automated Reporting<br/>Compliance Reports]
+    end
+
+    subgraph "COMPLIANCE & GOVERNANCE"
+        AIACT[🇪🇺 EU AI Act Mapper<br/>High-Risk System Controls]
+        EAA[♿ EAA Compliance<br/>Accessibility Standards]
+        GDPR[🔒 GDPR Engine<br/>Data Protection]
+        ISO[📜 ISO 27001/42001<br/>Security & AI Management]
+    end
+
+    subgraph "DATA LAYER"
+        METADATA[📊 Metadata Store<br/>PostgreSQL + TimescaleDB]
+        LOGS[📝 Log Storage<br/>Elasticsearch]
+        BLOCKCHAIN[⛓️ Blockchain Ledger<br/>Audit Immutability]
+        TESTCASES[🧪 Test Case Repository<br/>Open Protocol Storage]
+    end
+
+    subgraph "INFRASTRUCTURE LAYER"
+        CLOUD[☁️ Cloud Infrastructure<br/>Multi-Region HA]
+        SECURITY[🔐 Security Layer<br/>WAF, IDS/IPS, SIEM]
+        MONITOR[📡 Monitoring Stack<br/>Prometheus + Grafana]
+        BACKUP[💾 Backup & DR<br/>99.99% Availability]
+    end
+
+    subgraph "INTEGRATION LAYER"
+        ZENODO[📚 Zenodo Integration<br/>Research Data Publishing]
+        ORCID[🆔 ORCID Connector<br/>Researcher Attribution]
+        NOTION[📓 Notion API<br/>Documentation Sync]
+        SLACK[💬 Slack/Teams<br/>Alert Notifications]
+    end
+
+    %% User Interactions
+    USER --> DASHBOARD
+    USER --> API
+    INTEGRATOR --> SDK
+    AUDITOR --> DASHBOARD
+    AUDITOR --> API
+    REGULATOR --> DASHBOARD
+
+    %% Presentation to Application
+    DASHBOARD --> GUARDIAN
+    DASHBOARD --> ANALYTICS
+    API --> FACECORE
+    API --> GUARDIAN
+    CLI --> GUARDIAN
+    SDK --> API
+
+    %% Core Engine Flows
+    FACECORE --> CONSENT
+    FACECORE --> CRYPTO
+    FACECORE --> GUARDIAN
+
+    %% Guardian Network Flows
+    GUARDIAN --> REDBUTTON
+    GUARDIAN --> BIAS
+    GUARDIAN --> AUDIT
+    REDBUTTON -.->|Emergency Stop| FACECORE
+
+    %% Intelligence Layer
+    FACECORE --> ML
+    GUARDIAN --> ANALYTICS
+    BIAS --> ANALYTICS
+    ANALYTICS --> ALERT
+    ALERT --> REPORT
+
+    %% Compliance Checks
+    FACECORE --> AIACT
+    FACECORE --> GDPR
+    GUARDIAN --> AIACT
+    GUARDIAN --> EAA
+    AUDIT --> ISO
+
+    %% Data Persistence
+    FACECORE --> METADATA
+    GUARDIAN --> LOGS
+    AUDIT --> BLOCKCHAIN
+    BIAS --> TESTCASES
+    ANALYTICS --> METADATA
+
+    %% Infrastructure Support
+    METADATA --> CLOUD
+    LOGS --> CLOUD
+    BLOCKCHAIN --> CLOUD
+    CLOUD --> SECURITY
+    CLOUD --> MONITOR
+    CLOUD --> BACKUP
+
+    %% External Integrations
+    TESTCASES --> ZENODO
+    REPORT --> ORCID
+    DASHBOARD --> NOTION
+    ALERT --> SLACK
+    MONITOR --> SLACK
+
+    %% Styling
+    classDef core fill:#2196F3,stroke:#0D47A1,stroke-width:3px,color:#fff
+    classDef guardian fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    classDef ethics fill:#F44336,stroke:#C62828,stroke-width:3px,color:#fff
+    classDef compliance fill:#FF9800,stroke:#E65100,stroke-width:3px,color:#fff
+    classDef data fill:#9C27B0,stroke:#6A1B9A,stroke-width:3px,color:#fff
+    classDef infra fill:#607D8B,stroke:#37474F,stroke-width:3px,color:#fff
+    classDef integration fill:#00BCD4,stroke:#00838F,stroke-width:3px,color:#fff
+    classDef user fill:#FFC107,stroke:#F57F17,stroke-width:2px,color:#000
+
+    class FACECORE,CONSENT,CRYPTO,ML core
+    class GUARDIAN,REDBUTTON,BIAS,AUDIT guardian
+    class DASHBOARD,ANALYTICS,ALERT,REPORT ethics
+    class AIACT,EAA,GDPR,ISO compliance
+    class METADATA,LOGS,BLOCKCHAIN,TESTCASES data
+    class CLOUD,SECURITY,MONITOR,BACKUP infra
+    class ZENODO,ORCID,NOTION,SLACK integration
+    class USER,AUDITOR,REGULATOR,INTEGRATOR user
