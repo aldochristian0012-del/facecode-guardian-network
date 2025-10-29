@@ -25,6 +25,7 @@ Garantizar que toda implementación de FaceCode® incluya:
 ## 📂 Documentación
 
 - [Principios éticos](docs/ethical_principles.md)
+- [Kit de branding editorial](docs/branding.md)
 - [Guía para implementadores](docs/implementation_guide.md) *(próximamente)*
 - [Plantilla de Caso de Prueba Abierto](docs/open_test_case_template.md) *(próximamente)*
 
