@@ -24,9 +24,15 @@ Garantizar que toda implementación de FaceCode® incluya:
 
 ## 📂 Documentación
 
+### Ética y Cumplimiento
 - [Principios éticos](docs/ethical_principles.md)
 - [Guía para implementadores](docs/implementation_guide.md) *(próximamente)*
 - [Plantilla de Caso de Prueba Abierto](docs/open_test_case_template.md) *(próximamente)*
+
+### Privacidad y Protección de Datos
+- **[Aviso de Privacidad Integral](docs/privacy_policy.md)** — Política completa alineada con LFPDPPP 2025 (~3,000 palabras)
+- **[Microcopy UI — 3 Variantes A/B](docs/privacy_microcopy.md)** — Copy para pantallas de onboarding y configuración
+- **[Implementación Técnica](docs/privacy_implementation.md)** — Snippets de código para logging cifrado, jobs de eliminación y SDK móvil
 
 ## 🖼 Diagrama de arquitectura
 
